@@ -1,0 +1,14 @@
+.profilePictureContainer {
+  /* padding: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 20px; */
+}
+
+.profilePictureContainer img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: #ccc;
+  margin: 5vh 0;
+}
