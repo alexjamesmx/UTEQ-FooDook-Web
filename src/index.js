@@ -5,10 +5,12 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import 'bootstrap/dist/css/bootstrap.min.css'
-
+import { InfoProvider } from './app/components/infoContext'
 ReactDOM.render(
   <BrowserRouter>
-    <App />
+    <InfoProvider>
+      <App />
+    </InfoProvider>
   </BrowserRouter>,
   document.getElementById('root'),
 )

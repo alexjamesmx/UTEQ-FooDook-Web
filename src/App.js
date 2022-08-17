@@ -1,12 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Header from './app/components/Header'
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
-import { auth } from './firebase/firebase'
+import { auth, getMenus, getVentas } from './firebase/firebase'
 import AuthProvider from './app/components/authProvider'
 import './App.css'
 import RegisterForm from './app/routes/registerForm'
+import useInfo from './app/components/useInfo'
+
 function App () {
+  const { menus, setMenus } = useInfo([])
+
   const [state, setState] = useState(0)
+  const [user, setUser] = useState(undefined)
+  const [ventas, setVentas] = useState([])
+
   async function handleOnClick () {
     const googleProvider = new GoogleAuthProvider()
     await signInWithGoogle(googleProvider)
@@ -19,7 +26,18 @@ function App () {
       }
     }
   }
+
+  useEffect(() => {
+    ;(async () => {
+      const ventasres = await getVentas(user.idrestaurante)
+      const menusres = await getMenus(user.idrestaurante)
+      setVentas(ventasres)
+      setMenus(menusres)
+    })()
+  }, [user])
+
   function handleUserLoggedIn (user) {
+    setUser(user)
     setState(5)
   }
   function handleUserNotRegistered (user) {
@@ -32,7 +50,7 @@ function App () {
   if (state === 5) {
     return (
       <div className="App">
-        <Header />
+        <Header ventas={ventas} />
       </div>
     )
   }
@@ -55,6 +73,7 @@ function App () {
       </div>
     )
   }
+
   return (
     <AuthProvider
       onUserLoggedIn={handleUserLoggedIn}

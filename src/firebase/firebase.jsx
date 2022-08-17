@@ -158,3 +158,37 @@ export async function getUserPublicProfileInfo (uid) {
 export async function logout () {
   await auth.signOut()
 }
+
+export async function getVentas (idrestaurante) {
+  const ventas = []
+  try {
+    const q = query(collection(db, 'ventas'), where('idrestaurant', '==', idrestaurante))
+
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      ventas.push(doc.data())
+      // console.log(doc.id, ' => ', doc.data())
+    })
+    // console.log('ventas: ', ventas)
+    return ventas
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function getMenus (idrestaurante) {
+  const menus = []
+  try {
+    const q = query(collection(db, 'menus'), where('id', '==', idrestaurante))
+
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      menus.push(doc.data())
+      // console.log(doc.id, ' => ', doc.data())
+    })
+    // console.log('menus: ', menus)
+    return menus
+  } catch (error) {
+    console.log(error)
+  }
+}

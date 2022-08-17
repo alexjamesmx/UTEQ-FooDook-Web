@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import AuthProvider from '../components/authProvider'
@@ -10,13 +9,13 @@ export default function RegisterForm () {
   const [currentUser, setCurrentUser] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [id, setId] = useState('')
 
   async function handleUsersignOut (user) {
     await logout()
     window.location.reload()
   }
-  function handleUserLoggedIn (user) {
-  }
+  function handleUserLoggedIn (user) {}
   function handleUserNotRegistered (user) {
     setCurrentUser(user)
     setState(3)
@@ -31,9 +30,12 @@ export default function RegisterForm () {
   function handleInputUserPassword (e) {
     setPassword(e.target.value)
   }
+  function handleInputUserId (e) {
+    setId(e.target.value)
+  }
 
   async function handleContinue () {
-    if (username !== '' && password !== '') {
+    if (username !== '' && password !== '' && id !== '') {
       const exists = await existsUsername(username)
       if (exists) {
         setState(5)
@@ -42,6 +44,7 @@ export default function RegisterForm () {
           const tmp = { ...currentUser }
           tmp.username = username
           tmp.processCompleted = true
+          tmp.idrestaurante = id
           await updateUser(tmp)
           setState(6)
         } else {
@@ -69,6 +72,14 @@ export default function RegisterForm () {
         </div>
         <div>
           <input
+            placeholder="id de restaurante"
+            className="input"
+            type="text"
+            onInput={handleInputUserId}
+          />
+        </div>
+        <div>
+          <input
             placeholder="Contraseña"
             className="input"
             type="text"
@@ -91,7 +102,7 @@ export default function RegisterForm () {
     return (
       <div className={style.chooseUsernameContainer}>
         <h1>Felicidades, has creado tu cuenta</h1>
-        <Link to="/home" >Continuar</Link>
+        {/* <Link to="/home">Continuar</Link> */}
       </div>
     )
   }

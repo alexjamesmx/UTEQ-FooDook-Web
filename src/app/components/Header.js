@@ -19,7 +19,8 @@ import {
   faUser,
 } from '@fortawesome/free-solid-svg-icons'
 
-function Header () {
+function Header (props) {
+  const { menus, ventas } = props
   return (
     <>
       <Navbar expand="lg" bg="danger" variant="dark">
