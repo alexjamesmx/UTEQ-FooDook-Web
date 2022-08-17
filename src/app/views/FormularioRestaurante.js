@@ -15,19 +15,15 @@ function FormularioRestaurante (props) {
   const [logo, setLogo] = useState(item?.logo ?? '')
 
   const handlename = (e) => {
-    console.log(e.target.value)
     setName(e.target.value)
   }
   const handleadress = (e) => {
-    console.log(e.target.value)
     setAdress(e.target.value)
   }
   const handlephone = (e) => {
-    console.log(e.target.value)
     setPhone(e.target.value)
   }
   const handledescription = (e) => {
-    console.log(e.target.value)
     setDescription(e.target.value)
   }
   const handlelogo = (e) => {

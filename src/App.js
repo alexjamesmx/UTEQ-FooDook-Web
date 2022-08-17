@@ -8,11 +8,10 @@ import RegisterForm from './app/routes/registerForm'
 import useInfo from './app/components/useInfo'
 
 function App () {
-  const { menus, setMenus, setUserinfo, refresh, setRestaurante } = useInfo([])
+  const { ventas, setVentas, setMenus, setUserinfo, refresh, setRestaurante } = useInfo([])
 
   const [state, setState] = useState(0)
   const [user, setUser] = useState(undefined)
-  const [ventas, setVentas] = useState([])
 
   async function handleOnClick () {
     const googleProvider = new GoogleAuthProvider()
@@ -55,7 +54,7 @@ function App () {
   if (state === 5) {
     return (
       <div className="App">
-        <Header ventas={ventas} />
+        <Header />
       </div>
     )
   }

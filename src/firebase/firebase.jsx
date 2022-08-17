@@ -234,9 +234,41 @@ export async function getRestaurante (id) {
 export async function updateRestaurante (tmp, docId) {
   try {
     const userRef = doc(db, 'restaurantes', docId)
-    console.log(tmp, ' docid', docId)
     await setDoc(userRef, tmp)
   } catch (error) {
     console.error(error)
+  }
+}
+
+export async function getMenu (name, idrestaurante, cantidad) {
+  let menu = {}
+  try {
+    console.log(name, idrestaurante)
+    const q = query(
+      collection(db, 'menus'),
+      where('name', '==', name),
+      where('id', '==', idrestaurante),
+    )
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      menu = { ...doc.data() }
+      menu.cantidad = cantidad
+    })
+
+    console.log(menu)
+    return menu
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function addVenta (tmp) {
+  console.log(tmp)
+  try {
+    const docRef = collection(db, 'ventas')
+    const res = await addDoc(docRef, tmp)
+    return res
+  } catch (error) {
+    console.log(error)
   }
 }

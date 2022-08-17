@@ -1,7 +1,9 @@
 import React from 'react'
 import Table from 'react-bootstrap/Table'
 
-function TablaVentas () {
+function TablaVentas (props) {
+  const { menuEspecifico } = props
+
   return (
     <>
       <main>
@@ -16,7 +18,8 @@ function TablaVentas () {
           </thead>
           <tbody>
             <tr>
-              <td>Tacos</td>
+              {menuEspecifico ? <td>{menuEspecifico?.name}</td> : <></>}
+              {/* <td>{menuEspecifico[0]?.name}</td> */}
               <td>10</td>
               <td>$15</td>
               <td>$150</td>
