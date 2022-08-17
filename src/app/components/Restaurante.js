@@ -9,7 +9,7 @@ function Restaurante () {
         <h2>Tu información</h2>
         <DatosRestaurante />
         <h2>Edita información de tu negocio </h2>
-        <FormularioRestaurante />
+        {/* <FormularioRestaurante /> */}
       </main>
     </>
   )

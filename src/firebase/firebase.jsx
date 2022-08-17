@@ -191,20 +191,17 @@ export async function getMenus (idrestaurante) {
   }
 }
 
-export async function updateMenus (tmp, idrestaurante) {
+export async function updateMenus (tmp, docId) {
   try {
-    // const userRef = doc(db, 'users', docId)
-    console.log('tmp', tmp)
-    // await updateDoc(userRef, {
-    //   phone,
-    //   address
-    // })
+    const userRef = doc(db, 'menus', docId)
+    await setDoc(userRef, tmp)
   } catch (error) {
     console.error(error)
   }
 }
 
 export async function addMenus (tmp) {
+  console.log(tmp)
   try {
     const docRef = collection(db, 'menus')
     const res = await addDoc(docRef, tmp)
@@ -213,5 +210,33 @@ export async function addMenus (tmp) {
     console.log(error)
   }
 }
+export async function deleteMenu (docId) {
+  try {
+    await deleteDoc(doc(db, 'menus', docId))
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-//
+export async function getRestaurante (id) {
+  const restaurantes = []
+  try {
+    const q = query(collection(db, 'restaurantes'), where('id', '==', id))
+
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      restaurantes.push(doc.data())
+    })
+    return restaurantes
+  } catch (error) {}
+}
+
+export async function updateRestaurante (tmp, docId) {
+  try {
+    const userRef = doc(db, 'restaurantes', docId)
+    console.log(tmp, ' docid', docId)
+    await setDoc(userRef, tmp)
+  } catch (error) {
+    console.error(error)
+  }
+}

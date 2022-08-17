@@ -5,8 +5,8 @@ import Stack from 'react-bootstrap/Stack'
 import { updateMenus, addMenus } from '../../firebase/firebase'
 import useInfo from '../components/useInfo'
 function FormularioMenu (props) {
-  const { userinfo } = useInfo()
-  const { item, handleClose } = props
+  const { userinfo, setRefresh } = useInfo()
+  const { item, handleClose, handleCloseModalAgregar } = props
   const [name, setName] = useState(item?.name ?? '')
   const [price, setPrice] = useState(item?.price ?? '')
   const [description, setDescription] = useState(item?.description ?? '')
@@ -37,21 +37,34 @@ function FormularioMenu (props) {
         id: item.id,
         docId: item.docId,
       }
-      console.log('actualizamos producto')
-      await updateMenus(tmp, item.id)
+      await updateMenus(tmp, item.docId)
+      setRefresh((prevstate) => !prevstate)
+      handleClose()
     } else {
       e.preventDefault()
       if (name !== '' && price !== '' && description !== '' && logo !== '') {
-        console.log('Agregamos nuevo')
         setState(0)
-        const tmp = {
+        let tmp = {
           name,
           price,
           description,
           logo,
           id: userinfo.idrestaurante,
+          docId: item.docId,
         }
-        await addMenus(tmp)
+        const res = await addMenus(tmp)
+        tmp = {
+          name,
+          price,
+          description,
+          logo,
+          id: userinfo.idrestaurante,
+          docId: res.id,
+        }
+        await updateMenus(tmp, tmp.docId)
+
+        setRefresh((prevstate) => !prevstate)
+        handleCloseModalAgregar()
       } else {
         setState(1)
       }
@@ -68,7 +81,7 @@ function FormularioMenu (props) {
               </Form.Label>
               <Form.Control
                 type="name"
-                placeholder={item?.name ?? 'name'}
+                placeholder={item?.name ?? 'Nombre'}
                 value={name}
                 onChange={handlename}
               />
@@ -81,7 +94,7 @@ function FormularioMenu (props) {
               <Form.Control
                 type="number"
                 min="0"
-                placeholder={item?.price ?? 'price'}
+                placeholder={item?.price ?? 'Precio'}
                 value={price}
                 onChange={handleprice}
               />
@@ -92,7 +105,7 @@ function FormularioMenu (props) {
               </Form.Label>
               <Form.Control
                 type="name"
-                placeholder={item?.description ?? 'description'}
+                placeholder={item?.description ?? 'Descripción'}
                 value={description}
                 onChange={handledescription}
               />
