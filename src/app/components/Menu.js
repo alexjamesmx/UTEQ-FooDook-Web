@@ -9,8 +9,6 @@ function Menu () {
         <br />
         <h2>Editar menú </h2> <br />
         <TablaMenu />
-        <Button variant="warning">Agregar producto</Button> <br />
-        <FormularioMenu />
       </main>
     </>
   )

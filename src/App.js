@@ -8,7 +8,7 @@ import RegisterForm from './app/routes/registerForm'
 import useInfo from './app/components/useInfo'
 
 function App () {
-  const { menus, setMenus } = useInfo([])
+  const { menus, setMenus, setUserinfo } = useInfo([])
 
   const [state, setState] = useState(0)
   const [user, setUser] = useState(undefined)
@@ -34,9 +34,10 @@ function App () {
       setVentas(ventasres)
       setMenus(menusres)
     })()
-  }, [user])
+  }, [user, menus])
 
   function handleUserLoggedIn (user) {
+    setUserinfo(user)
     setUser(user)
     setState(5)
   }

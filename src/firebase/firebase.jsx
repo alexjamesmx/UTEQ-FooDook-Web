@@ -167,9 +167,7 @@ export async function getVentas (idrestaurante) {
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
       ventas.push(doc.data())
-      // console.log(doc.id, ' => ', doc.data())
     })
-    // console.log('ventas: ', ventas)
     return ventas
   } catch (error) {
     console.log(error)
@@ -183,12 +181,37 @@ export async function getMenus (idrestaurante) {
 
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
-      menus.push(doc.data())
-      // console.log(doc.id, ' => ', doc.data())
+      const menu = { ...doc.data() }
+      menu.docId = doc.id
+      menus.push(menu)
     })
-    // console.log('menus: ', menus)
     return menus
   } catch (error) {
     console.log(error)
   }
 }
+
+export async function updateMenus (tmp, idrestaurante) {
+  try {
+    // const userRef = doc(db, 'users', docId)
+    console.log('tmp', tmp)
+    // await updateDoc(userRef, {
+    //   phone,
+    //   address
+    // })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export async function addMenus (tmp) {
+  try {
+    const docRef = collection(db, 'menus')
+    const res = await addDoc(docRef, tmp)
+    return res
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+//

@@ -1,62 +1,91 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Table from 'react-bootstrap/Table'
 import useInfo from '../components/useInfo'
+import Button from 'react-bootstrap/Button'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro' // <-- import styles to be used
+import Modal from 'react-bootstrap/Modal'
+import FormularioMenu from './FormularioMenu'
 function TablaMenu () {
-  const { menus, setMenus } = useInfo()
-  const [row, setRow] = useState([])
-  const keys = []
-  let rows = []
-  const finalrow = []
+  const { menus, setMenus, userinfo } = useInfo()
+  const [show, setShow] = useState(false)
+  const [modalAgregar, setModalAgregar] = useState(false)
+  const [modalid, setModalid] = useState({})
 
-  for (const property in menus[0]) {
-    keys.push(property)
-  }
-  keys.reverse()
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
-  console.log('rows', rows)
-  console.log('Arreglo final', row)
-
-  const handlerow = (rows) => {
-    console.log('funcion', rows)
-    finalrow.push(rows)
-  }
-
-  console.log('FINAL ARREGLO: ', finalrow)
+  const handleCloseModalAgregar = () => setModalAgregar(false)
+  const handleShowModalAgregar = () => setModalAgregar(true)
+  console.log(menus)
+  console.log(userinfo)
   return (
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          {keys.map((item, i) => {
-            return <th key={i}>{item}</th>
+    <>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Imagen</th>
+            <th>Acciones</th>
+            <th>Descripcion</th>
+          </tr>
+        </thead>
+        <tbody>
+          {menus.map((item, i) => {
+            return (
+              <tr key={i}>
+                <td>{item.name}</td>
+                <td>{item.price}</td>
+                <td>{item.description}</td>
+                <td>{item.logo}</td>
+                <td
+                  style={{
+                    justifyContent: 'space-between',
+                    backgroundColor: 'grey',
+                  }}>
+                  {' '}
+                  <Button
+                    variant="info"
+                    onClick={() => {
+                      handleShow()
+                      setModalid(item)
+                    }}>
+                    <FontAwesomeIcon icon={solid('edit')} />
+                  </Button>
+                  <Button variant="danger">
+                    <FontAwesomeIcon icon={solid('trash')} />
+                  </Button>
+                </td>
+              </tr>
+            )
           })}
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        {menus.map((item, i) => {
-          rows = []
-          for (const property in item) {
-            rows.push(<th key={i}>{item[property]}</th>)
-          }
-          // setRow(rows)
-          // console.log(rows)
-          handlerow(rows)
-          return <tr key={i}>{finalrow[i]}</tr>
-        })}
-
-        {/* <td>Tacos</td>
-          <td>$15</td>
-          <td>FOTO.jpg</td>
-          <td>Editar/Borrar</td>
-          <td>Editar/Borrar</td>
-        </tr>  */}
-      </tbody>
-    </Table>
+        </tbody>
+      </Table>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar {modalid.name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <FormularioMenu item={modalid} handleClose={handleClose} />
+        </Modal.Body>
+        <Modal.Footer></Modal.Footer>
+      </Modal>
+      <Modal show={modalAgregar} onHide={handleCloseModalAgregar}>
+        <Modal.Header closeButton>
+          <Modal.Title>Agregar producto</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <FormularioMenu item={null} handleClose={handleCloseModalAgregar} />
+        </Modal.Body>
+        <Modal.Footer></Modal.Footer>
+      </Modal>
+      <Button variant="warning" onClick={handleShowModalAgregar}>
+        Agregar producto
+      </Button>{' '}
+      <br />
+    </>
   )
 }
 
 export default TablaMenu
-
-function comida () {
-  return <>OLA</>
-}
