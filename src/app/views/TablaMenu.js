@@ -86,7 +86,11 @@ function TablaMenu () {
           <Modal.Title>Agregar producto</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FormularioMenu item={null} handleClose={handleCloseModalAgregar} />
+          <FormularioMenu
+            item={null}
+            handleClose={handleCloseModalAgregar}
+            handleCloseModalAgregar={handleCloseModalAgregar}
+          />
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>

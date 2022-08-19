@@ -13,6 +13,8 @@ import {
   setDoc,
   deleteDoc,
   updateDoc,
+  limit,
+  orderBy,
 } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -201,7 +203,6 @@ export async function updateMenus (tmp, docId) {
 }
 
 export async function addMenus (tmp) {
-  console.log(tmp)
   try {
     const docRef = collection(db, 'menus')
     const res = await addDoc(docRef, tmp)
@@ -243,7 +244,6 @@ export async function updateRestaurante (tmp, docId) {
 export async function getMenu (name, idrestaurante, cantidad) {
   let menu = {}
   try {
-    console.log(name, idrestaurante)
     const q = query(
       collection(db, 'menus'),
       where('name', '==', name),
@@ -255,7 +255,6 @@ export async function getMenu (name, idrestaurante, cantidad) {
       menu.cantidad = cantidad
     })
 
-    console.log(menu)
     return menu
   } catch (error) {
     console.log(error)
@@ -263,11 +262,33 @@ export async function getMenu (name, idrestaurante, cantidad) {
 }
 
 export async function addVenta (tmp) {
-  console.log(tmp)
   try {
     const docRef = collection(db, 'ventas')
     const res = await addDoc(docRef, tmp)
     return res
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function getWeekDays (id) {
+  const dias = []
+  const dias2 = []
+  try {
+    const q = query(collection(db, 'ventas'), orderBy('fecha', 'desc'), limit(50))
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      console.log(doc)
+      dias2.push(doc.data())
+      dias.push(
+        parseFloat(
+          doc._document.data.value.mapValue.fields.total.integerValue ||
+            doc._document.data.value.mapValue.fields.total.doubleValue,
+        ),
+      )
+    })
+
+    return dias.reverse()
   } catch (error) {
     console.log(error)
   }

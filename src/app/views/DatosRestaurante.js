@@ -19,9 +19,13 @@ function DatosRestaurante () {
           {restaurante.map((item, i) => {
             return (
               <div key={i}>
-                <h5>{item.name}</h5>
-                <h5>{item.adress}</h5>
-                <h5>{item.phone}</h5>
+                <h5>Nombre: {item.name}</h5>
+                <h5>Dirección: {item.adress}</h5>
+                <h5>Teléfono: {item.phone}</h5>
+                <h5>
+                  Ubicacion:<br></br>
+                  lat:{item?.lat}, long:{item?.long}
+                </h5>
                 <Button
                   variant="warning"
                   onClick={() => {

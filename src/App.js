@@ -6,6 +6,7 @@ import AuthProvider from './app/components/authProvider'
 import './App.css'
 import RegisterForm from './app/routes/registerForm'
 import useInfo from './app/components/useInfo'
+import { Button, Badge } from 'react-bootstrap'
 
 function App () {
   const { ventas, setVentas, setMenus, setUserinfo, refresh, setRestaurante } = useInfo([])
@@ -63,9 +64,13 @@ function App () {
     return (
       <div className="App">
         <div>
-          <h1>Link tree</h1>
+          <h3>Bienvenido a </h3>
+          <Badge bg="danger" size="lg">
+            <h1> FooDook </h1>
+          </Badge>
         </div>
-        <button onClick={handleOnClick}>Login with Google</button>
+        <h5>Para continuar, favor de:</h5>
+        <Button onClick={handleOnClick}>Ingresar con Google</Button>
       </div>
     )
   }

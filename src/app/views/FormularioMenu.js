@@ -50,8 +50,8 @@ function FormularioMenu (props) {
           description,
           logo,
           id: userinfo.idrestaurante,
-          docId: item.docId,
         }
+
         const res = await addMenus(tmp)
         tmp = {
           name,

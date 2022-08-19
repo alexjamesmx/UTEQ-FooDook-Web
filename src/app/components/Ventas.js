@@ -36,30 +36,34 @@ function Ventas () {
     }
   }
 
+  const weekday = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado']
+
   let sub = 0
   let total = 0
   const subArray = []
   if (menufinal) {
     menufinal.forEach((item) => {
-      // console.log('itemforeach', item)
       sub = item.price * item.cantidad
       subArray.push(sub)
     })
     subArray.forEach((item) => {
       total = total + item
-      console.log(item)
     })
   }
   const handleVenta = async () => {
-    console.log('agregando venta')
+    const d = new Date()
+    const day = weekday[d.getDay()]
+
     const tmp = {
       fecha: new Date(),
       idrestaurant: userinfo.idrestaurante,
       total,
+      day,
     }
     await addVenta(tmp)
     setMenufinal([])
   }
+
   return (
     <>
       <main>

@@ -7,12 +7,15 @@ import { updateRestaurante } from '../../firebase/firebase'
 function FormularioRestaurante (props) {
   const { setRefresh } = useInfo()
   const { item, handleClose } = props
+
   const [state, setState] = useState(0)
   const [name, setName] = useState(item?.name ?? '')
   const [adress, setAdress] = useState(item?.adress ?? '')
   const [phone, setPhone] = useState(item?.phone ?? '')
   const [description, setDescription] = useState(item?.description ?? '')
   const [logo, setLogo] = useState(item?.logo ?? '')
+  const [lat, setLat] = useState(item?.lat ?? '')
+  const [long, setLong] = useState(item?.long ?? '')
 
   const handlename = (e) => {
     setName(e.target.value)
@@ -29,11 +32,18 @@ function FormularioRestaurante (props) {
   const handlelogo = (e) => {
     setLogo(e.target.value)
   }
+  const handlelat = (e) => {
+    setLat(e.target.value)
+  }
+  const handlelong = (e) => {
+    setLong(e.target.value)
+  }
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (name !== '' && adress !== '' && phone !== '') {
+    if (name !== '' && adress !== '' && phone !== '' && lat !== '' && long !== '') {
       setState(0)
       setPhone(phone.toString())
+
       const tmp = {
         name,
         adress,
@@ -42,6 +52,8 @@ function FormularioRestaurante (props) {
         id: item.id,
         docId: item.docId,
         logo,
+        lat,
+        long,
       }
       await updateRestaurante(tmp, item.docId)
       setRefresh((prevstate) => !prevstate)
@@ -109,6 +121,33 @@ function FormularioRestaurante (props) {
                 placeholder={item?.adress ?? 'Ubicación'}
                 value={adress}
                 onChange={handleadress}
+              />
+            </Form.Group>
+
+            <h4>
+              <strong>Coordenadas</strong>
+            </h4>
+
+            <Form.Group className="mb-3" controlId="formBasicUbicacion">
+              <Form.Label>
+                <strong>Latitud:</strong>
+              </Form.Label>
+              <Form.Control
+                type="number"
+                placeholder={item?.lat ?? 'Latitud'}
+                value={lat}
+                onChange={handlelat}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicUbicacion">
+              <Form.Label>
+                <strong>Longitud:</strong>
+              </Form.Label>
+              <Form.Control
+                type="number"
+                placeholder={item?.long ?? 'Longitud'}
+                value={long}
+                onChange={handlelong}
               />
             </Form.Group>
           </Stack>
